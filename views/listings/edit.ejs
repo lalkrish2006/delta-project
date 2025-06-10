@@ -29,7 +29,7 @@
     <label for="inputGroupSelect01" class="form-label">Category :</label>
     <div class="input-group category ">
         <select class="custom-select form-control" id="inputGroupSelect01" name="listing[category]">
-            <option value="" selected ><%= listing.category %></option>
+            <option value="<%= listing.category %>" selected ><%= listing.category %></option>
             <% for(let cat of ["Mountains","Castles","Camping","Arctic","Boats","Iconic Cities","Rooms","Amazing Pools","Farms","Domes"]) { %>
                 <% if (cat !== listing.category) { %>
                     <option value="<%= cat %>"><%= cat %></option>
