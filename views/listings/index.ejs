@@ -1,45 +1,5 @@
 <% layout("/layouts/boilerplate") %>
 
-<style>
-  #filters {
-    display: flex;
-    flex-wrap: wrap;
-    height: 3rem;
-    align-items: center;
-  }
-  .filter a {
-    text-decoration: none;
-    color: black;
-  }
-  .filter {
-    text-align: center;
-    margin-right: 2rem;
-    opacity: 0.6;
-    height: 2.8rem;
-  }
-  .filter:hover,
-  .filter.active {
-    opacity: 1;
-    cursor: pointer;
-    border-bottom: 2px solid grey;
-  }
-  .filter p {
-    font-size: 0.8rem;
-  }
-  .tax-info {
-    display: none;
-  }
-  .tax-toggle {
-    border: 0.5px solid grey;
-    border-radius: 1rem;
-    height: 3.25rem;
-    padding: 1rem;
-    margin-left: 2rem;
-    display: flex;
-    align-items: center;
-  }
-</style>
-
 <div class="filters" id="filters">
   <div class="filter active">
     <a href="#" data-filter="all">

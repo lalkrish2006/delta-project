@@ -1,54 +1,156 @@
 <style>
+  .fullscreen-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .fullscreen-nav.active {
+    display: flex;
+  }
+
+  .fullscreen-nav a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .fullscreen-nav a:hover {
+    color: #fe424d;
+  }
+
+  .navbar-toggler {
+    z-index: 10000;
+  }
+
+  @media (min-width: 768px) {
+    .fullscreen-nav,
+    .navbar-toggler {
+      display: none !important;
+    }
+
+    .desktop-nav {
+      display: flex !important;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .search-form-wrapper {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-form {
+      width: 100%;
+      display: flex;
+    }
+  }
+
   .btn-search {
     background-color: #fe424d;
     color: #fff;
     border-radius: 3rem;
-    padding: 0.5rem 1rem; 
-    display: inline-flex; 
-    align-items: center; 
-}
+    padding: 0.5rem 1rem;
+    display: inline-flex;
+    align-items: center;
+  }
 
-.btn-search:hover {
+  .btn-search:hover {
     background-color: #fe424d;
     color: #fff;
-}
+  }
 
-.btn-search i {
+  .btn-search i {
     margin-right: 0.5rem;
-}
-  .search-input{
+  }
+
+  .search-input {
     border-radius: 3rem;
-    padding: 0.5rem 3rem ;
+    padding: 0.5rem 3rem;
     font-size: 1rem;
   }
 </style>
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-body-light border-bottom sticky-top px-3 py-2 position-relative">
+  <div class="container-fluid d-flex justify-content-between align-items-center position-relative">
+    
+    <div class="d-flex align-items-center gap-3">
       <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2 search-input" type="search" placeholder="Search Destinations" >
-            <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-          </form>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new"> Airbnb your home</a>
-          <% if(!currUser){%>
-          <a class="nav-link" href="/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/login"><b>Login</b></a>
-          <%}%>
-          <%if(currUser){%>
-          <a class="nav-link" href="/logout"><b>Logout</b></a>
-          <%}%>
-        </div>
-      </div>
+      <a class="nav-link d-none d-md-inline" href="/listings">Explore</a>
     </div>
-  </nav>
+
+    <div class="search-form-wrapper d-none d-md-flex">
+      <form class="search-form" role="search">
+        <input class="form-control me-2 search-input" type="search" placeholder="Search Destinations">
+        <button class="btn btn-search" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i> Search
+        </button>
+      </form>
+    </div>
+
+    <div class="desktop-nav d-none">
+      <a class="nav-link" href="/listings/new">Airbnb your home</a>
+      <% if (!currUser) { %>
+        <a class="nav-link" href="/signup"><b>Sign up</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+      <% } else { %>
+        <a class="nav-link" href="/logout"><b>Logout</b></a>
+      <% } %>
+    </div>
+
+    <button class="navbar-toggler d-md-none ms-auto" type="button" id="toggleFullscreenNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<div class="fullscreen-nav" id="fullscreenNav">
+  <a href="/listings">Explore</a>
+  <a href="/listings/new">Airbnb your home</a>
+  <% if (!currUser) { %>
+    <a href="/signup"><b>Sign up</b></a>
+    <a href="/login"><b>Login</b></a>
+  <% } else { %>
+    <a href="/logout"><b>Logout</b></a>
+  <% } %>
+  <button class="btn btn-outline-danger mt-3" id="closeNav">Close</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("toggleFullscreenNav");
+    const fullscreenNav = document.getElementById("fullscreenNav");
+    const closeBtn = document.getElementById("closeNav");
+
+    toggleBtn.addEventListener("click", () => {
+      fullscreenNav.classList.add("active");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      fullscreenNav.classList.remove("active");
+    });
+
+    fullscreenNav.addEventListener("click", (e) => {
+      if (e.target === fullscreenNav) {
+        fullscreenNav.classList.remove("active");
+      }
+    });
+  });
+</script>
+<br>
